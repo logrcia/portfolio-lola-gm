@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Lola García">
+  <!-- Temporary specimen page: it proves the tokens and components work.
+       It is replaced by the real home page in stage 2. -->
+
+  <section class="section">
+    <div class="container">
+      <h1>Escala tipográfica del sistema</h1>
+      <p>
+        Esta página es un specimen temporal: muestra los estilos base del sistema antes de
+        escribir el contenido real. Los tamaños se ajustan solos con el ancho de la pantalla.
+      </p>
+
+      <h2>Títulos</h2>
+      <p>
+        El titular usa Gabarito en peso medio. Baja el tamaño de la ventana y mira cómo
+        cambia: no hay media queries en la tipografía, el resizing lo hacen los
+        <code>clamp()</code> de los tokens.
+      </p>
+
+      <h3>Subtítulos y texto corrido</h3>
+      <p>
+        El cuerpo de texto usa Inter con un interlineado de 1.6 y un largo de línea acotado
+        para que la lectura no se vuelva incómoda en pantallas anchas. Podés ver un
+        <a href="#componentes">ejemplo de enlace</a> con subrayado más grueso al pasar el
+        cursor.
+      </p>
+      <p>
+        Un segundo párrafo confirma el espaciado entre bloques y el peso de
+        <strong>destaque</strong>.
+      </p>
+      <small>Texto pequeño para notas y metadatos.</small>
+
+      <div class="script-demo">
+        <p class="script">Lola</p>
+        <small>
+          La clase <code>script</code> está reservada para la palabra «Lola» en el hero y
+          para acentos cortos. Nunca para texto corrido.
+        </small>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="componentes">
+    <div class="container">
+      <h2>Componentes</h2>
+
+      <div class="stack">
+        <h3>Chips</h3>
+        <div class="cluster">
+          <button class="chip" type="button" aria-pressed="true">Diseño</button>
+          <button class="chip" type="button" aria-pressed="false">Multimedia</button>
+          <button class="chip" type="button" aria-pressed="false">Editorial</button>
+        </div>
+
+        <h3>Botones</h3>
+        <div class="cluster">
+          <a class="btn" href="#">Ver proyectos</a>
+          <button class="btn" type="button">Contacto</button>
+        </div>
+
+        <h3>Tarjetas</h3>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Proyecto de ejemplo</h3>
+            <p>Tarjeta en estado normal. El borde transparente ya ocupa su lugar.</p>
+          </article>
+          <article class="card is-selected">
+            <h3>Tarjeta seleccionada</h3>
+            <p>La clase <code>is-selected</code> solo cambia el color del borde.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The band paints edge to edge; only its text is centered by .container. -->
+  <section class="section dashed-band">
+    <div class="container">
+      <h2>Banda de herramientas</h2>
+      <p>
+        Esta banda punteada queda reservada para la sección de herramientas. Hoy solo
+        muestra el fondo, los bordes y el anillo de foco por defecto.
+      </p>
+      <p><a href="#contenido">Probá el foco con el teclado</a> dentro de la banda.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <p class="note">Página temporal del stage 1. Se reemplaza por el contenido real en el stage 2.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Short and temporary: only what this specimen needs. */
+
+  .script-demo {
+    margin-block-start: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  /* Cards wrap into as many columns as fit, each at least --card-min wide. */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-min), 1fr));
+    gap: var(--space-4);
+  }
+
+  .note {
+    margin-block-start: var(--space-8);
+    color: var(--color-text);
+  }
+</style>

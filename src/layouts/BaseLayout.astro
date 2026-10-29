@@ -1,0 +1,91 @@
+---
+// Tokens must load before global styles, because global.css reads the variables.
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Portfolio de diseño multimedial: proyectos, herramientas y proceso.',
+} = Astro.props;
+
+// Replace with your exact name, as you want it to appear in the browser tab.
+const siteName = 'Lola García';
+
+// Home page keeps a clean title; inner pages get "Page · Site".
+const pageTitle = title === siteName ? siteName : `${title} · ${siteName}`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <!-- This meta tag is read by the browser before any CSS loads, so it cannot
+         use a CSS variable. It repeats --color-bg by hand; keep both in sync. -->
+    <meta name="theme-color" content="#FBF3F1" />
+
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Fonts are fetched from Google Fonts with display=swap so text paints
+         immediately in the fallback font instead of staying invisible. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;700&family=Inter:wght@400;500&family=Caveat:wght@600&display=swap"
+    />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="site-header">
+      <div class="container">
+        <a href="/">{siteName}</a>
+        <!-- Navigation comes in stage 2 -->
+      </div>
+    </header>
+
+    <!-- main does not add .container on purpose: each section decides its own
+         width, so a band like .dashed-band can run edge to edge while its text
+         stays inside a .container. -->
+    <main id="contenido" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <small>© {new Date().getFullYear()} {siteName}</small>
+        <p>Portfolio en construcción.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  /* Everything else about the header, main and footer lives in global.css.
+     Only these two rules are page-shell specific. */
+
+  .site-footer {
+    padding-block: var(--space-8);
+    border-block-start: var(--border-thin) solid var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-small);
+  }
+
+  /* main receives focus when the skip link is used, so the ring is not needed
+     there; the focused element that matters is the section the user landed on. */
+  main:focus {
+    outline: none;
+  }
+</style>

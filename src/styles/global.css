@@ -1,0 +1,431 @@
+/* Global styles: reset, base typography, layout helpers and shared components.
+   The order of these numbered blocks matters: the reset comes first so every
+   browser starts from the same place, then the base styles, then components.
+   Values always come from tokens.css. */
+
+/* ==========================================================================
+   1. RESET
+   Makes browsers agree on the basics before we style anything.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* padding and border count inside the width */
+}
+
+/* Remove default margins so spacing is always set on purpose. */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Media elements never overflow their container. */
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto; /* keep the aspect ratio when only the width is set */
+}
+
+/* Form controls do not inherit the page font by default. */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* A list with role="list" is semantic but we render it as plain blocks. */
+ul[role='list'] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* :where() keeps this rule at zero specificity, so any class we add later
+   can override the indent without fighting a selector. */
+:where(ul, ol) {
+  padding-inline-start: 1.25rem;
+}
+
+/* ==========================================================================
+   2. DOCUMENT
+   ========================================================================== */
+
+html {
+  -webkit-text-size-adjust: 100%; /* stop iOS from resizing text on rotation */
+  color-scheme: light;
+  scroll-padding-top: var(--header-height); /* anchor jumps clear the sticky header */
+}
+
+/* ==========================================================================
+   3. BODY
+   ========================================================================== */
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  font-weight: var(--weight-regular);
+  min-height: 100svh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   4. HEADINGS
+   The scale is mobile-first and fluid: the clamp() tokens grow the size with
+   the viewport, so no media query is needed here.
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-heading);
+  text-wrap: balance; /* avoids one lonely word on the last line */
+  margin-block-end: var(--space-4);
+}
+
+h1 {
+  font-size: var(--text-h1);
+  line-height: var(--leading-h1);
+}
+
+h2 {
+  font-size: var(--text-h2);
+}
+
+h3 {
+  font-size: var(--text-h3);
+}
+
+h4,
+h5,
+h6 {
+  font-size: var(--text-body);
+}
+
+/* ==========================================================================
+   5. TEXT
+   ========================================================================== */
+
+p {
+  max-width: var(--measure); /* keeps lines at a comfortable reading length */
+  text-wrap: pretty;
+}
+
+p + p {
+  margin-block-start: var(--space-4);
+}
+
+strong {
+  font-weight: var(--weight-medium);
+}
+
+small {
+  font-size: var(--text-small);
+}
+
+code,
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.9em; /* relative to the text around it */
+}
+
+hr {
+  border: 0;
+  border-block-start: var(--border-thin) solid var(--color-surface);
+  margin-block: var(--space-8);
+}
+
+/* ==========================================================================
+   6. LINKS
+   ========================================================================== */
+
+a {
+  color: var(--color-brand-text);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.08em;
+}
+
+/* Thicker underline on hover is an extra cue on top of the color change. */
+a:hover {
+  text-decoration-thickness: 0.14em;
+}
+
+.link-plain {
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   7. SCRIPT ACCENT
+   Handwritten look. ONLY for the word "Lola" in the hero and for small
+   accents. Never for running text: cursive at paragraph length is hard to read.
+   ========================================================================== */
+
+.script {
+  font-family: var(--font-script);
+  font-size: var(--text-script);
+  font-weight: var(--weight-bold);
+  color: var(--color-brand-text);
+  line-height: 1;
+}
+
+/* ==========================================================================
+   8. LAYOUT
+   ========================================================================== */
+
+/* Page wrapper: centered, capped width, fluid side padding. */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Vertical rhythm for a full page section. */
+.section {
+  padding-block: var(--section-block);
+}
+
+/* Softer background for alternating sections. */
+.section--soft {
+  background: var(--color-bg-soft);
+}
+
+/* ==========================================================================
+   9. SITE HEADER
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  min-height: var(--header-height);
+  background: var(--color-brand);
+  color: var(--color-text-on-brand);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.site-header a {
+  color: var(--color-text-on-brand);
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-body);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.site-header nav a {
+  font-weight: var(--weight-medium);
+  font-size: var(--text-small);
+  padding-block: var(--space-2);
+  border-block-end: var(--border-medium) solid transparent;
+}
+
+/* aria-current="page" is the accessible way to mark the current page.
+   The underline is only the visual echo of that attribute, so screen readers
+   and sighted users get the same information. */
+.site-header nav a[aria-current='page'] {
+  border-block-end-color: var(--color-text-on-brand);
+}
+
+/* ==========================================================================
+   10. COMPONENTS
+   ========================================================================== */
+
+/* Pill button used for filters and tags. aria-pressed carries the state,
+   so the styles hang off the attribute instead of a separate class. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-target);
+  padding: var(--chip-padding-block) var(--chip-padding-inline);
+  border: var(--border-thin) solid var(--color-text);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.card {
+  background: var(--color-surface);
+  /* Transparent border reserved now, so selecting a card does not shift it. */
+  border: var(--border-thick) solid transparent;
+  border-radius: var(--radius-lg);
+  padding: var(--card-padding);
+}
+
+.card.is-selected {
+  border-color: var(--color-brand);
+}
+
+/* Main call to action. Works on <a> and <button> alike, hence the reset
+   of text-decoration and the shared font settings. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-target);
+  padding: var(--btn-padding-block) var(--btn-padding-inline);
+  background: var(--color-text);
+  color: var(--color-bg);
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Full-width band with dashed top and bottom borders. */
+.dashed-band {
+  background: var(--color-surface);
+  border-block: var(--border-medium) dashed var(--color-brand);
+}
+
+/* Small layout helpers, so pages do not invent one-off gaps. */
+.stack > * + * {
+  margin-block-start: var(--space-4); /* vertical rhythm between siblings */
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2); /* horizontal group that wraps on narrow screens */
+  align-items: center;
+}
+
+/* ==========================================================================
+   11. FOCUS
+   :focus-visible only matches keyboard focus, so mouse clicks stay clean while
+   keyboard users always get a very visible ring.
+   ========================================================================== */
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--color-brand-text);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Only the header sits on the pink brand fill, where a brand-text ring would
+   disappear, so the ring flips to white there. The dashed band keeps the
+   default ring: its background is light, and a white ring on cream would be
+   invisible. */
+.site-header :focus-visible {
+  outline-color: var(--color-text-on-brand);
+}
+
+/* ==========================================================================
+   12. SELECTION
+   ========================================================================== */
+
+::selection {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+/* ==========================================================================
+   13. UTILITIES
+   ========================================================================== */
+
+/* Hides content visually but keeps it available to screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Off-screen until a keyboard user tabs to it, then it slides into view. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-200%);
+  background: var(--color-text);
+  color: var(--color-bg);
+  padding: var(--space-3) var(--space-4);
+  z-index: 100;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   14. MOTION
+   Smooth scrolling is opt-in: users who ask for less motion never get it.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Respect the OS "reduce motion" setting for every animation and transition. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
